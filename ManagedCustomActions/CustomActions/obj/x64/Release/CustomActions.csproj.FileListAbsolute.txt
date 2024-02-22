@@ -1,0 +1,4 @@
+E:\BarTender_baseline\Publishing\Work\Main\Support\CustomActions\ManagedCustomActions\CustomActions\obj\x64\Release\CustomActions.csproj.AssemblyReference.cache
+E:\BarTender_baseline\Publishing\Work\Main\Support\CustomActions\ManagedCustomActions\CustomActions\obj\x64\Release\Interop.IWshRuntimeLibrary.dll
+E:\BarTender_baseline\Publishing\Work\Main\Support\CustomActions\ManagedCustomActions\CustomActions\obj\x64\Release\CustomActions.csproj.ResolveComReference.cache
+E:\BarTender_baseline\Publishing\Work\Main\Support\CustomActions\ManagedCustomActions\CustomActions\obj\x64\Release\CustomActions.csproj.CoreCompileInputs.cache

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75464305-188D-40CE-BC92-941844F63FFB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CustomActions</RootNamespace>
+    <AssemblyName>CustomActions</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <!--
+    The 4 properties below set this project ot use a
+    static explicit version of the WiX Toolset instead
+    of using the system installed one
+    http://wixtoolset.org/documentation/manual/v3/msbuild/daily_builds.html
+    -->
+    <WixToolPath>..\..\..\WiX\3.11.1\</WixToolPath>
+    <WixTargetsPath>$(WixToolPath)Wix.targets</WixTargetsPath>
+    <WixTasksPath>$(WixToolPath)wixtasks.dll</WixTasksPath>
+    <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' ">$(WixToolPath)\sdk\wix.ca.targets</WixCATargetsPath>
+    <TargetFrameworkProfile />
+    <!--
+    The following property can be used to restore this
+    project such that it uses the system installed version
+    of the WiX Toolset
+    Our build system's VMs currently use WiX v3.8
+    -->
+    <!-- <WixCATargetsPath Condition=" '$(WixCATargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.CA.targets</WixCATargetsPath> -->
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(Configuration)-$(Platform)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Configuration)-$(Platform)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(Configuration)-$(Platform)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\$(Configuration)-$(Platform)\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <!-- 
+  Set the PublishPath so the project can fetch files it needs
+  from the published BarTender solution
+  -->
+  <PropertyGroup>
+    <!-- Main Branch -->
+    <PublishPath Condition="Exists('..\..\..\..\..\..\BarTender\Main\bin\Published-win32') AND '$(Platform)' != 'x64'">..\..\..\..\..\..\BarTender\Main\bin\Published-win32</PublishPath>
+    <PublishPath Condition="Exists('..\..\..\..\..\..\BarTender\Main\bin\Published-x64') AND '$(Platform)' == 'x64'">..\..\..\..\..\..\BarTender\Main\bin\Published-x64</PublishPath>
+    <!-- Work\Sigma\Main Branch -->
+    <PublishPath Condition="Exists('..\..\..\..\..\..\BarTender\Work\Sigma\Main\bin\Published-win32') AND '$(Platform)' != 'x64'">..\..\..\..\..\..\BarTender\Work\Sigma\Main\bin\Published-win32</PublishPath>
+    <PublishPath Condition="Exists('..\..\..\..\..\..\BarTender\Work\Sigma\Main\bin\Published-x64') AND '$(Platform)' == 'x64'">..\..\..\..\..\..\BarTender\Work\Sigma\Main\bin\Published-x64</PublishPath>
+    <!-- Stage directory -->
+    <PublishPath Condition="Exists('..\..\..\..\Publish')">..\..\..\..\Publish</PublishPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Deployment.Compression, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(WixToolPath)\sdk\Microsoft.Deployment.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Deployment.Compression.Cab, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(WixToolPath)\sdk\Microsoft.Deployment.Compression.Cab.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Deployment.WindowsInstaller, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(WixToolPath)\sdk\Microsoft.Deployment.WindowsInstaller.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Deployment.WindowsInstaller.Package, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(WixToolPath)\sdk\Microsoft.Deployment.WindowsInstaller.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Seagull.InstallWizard">
+      <HintPath>$(PublishPath)\Seagull.InstallWizard.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlLocalDb">
+      <HintPath>.\SqlLocalDb\System.Data.SqlLocalDb.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Registration.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="UserInterfaces.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="CustomAction.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(WixCATargetsPath)" />
+  <ItemGroup>
+    <CustActContentFiles Include="$(PublishPath)\**\Seagull.InstallWizard.resources.dll" />
+    <CustActContentFiles Include="$(PublishPath)\InstallerSupport.dll" />
+    <CustActContentFiles Include="$(PublishPath)\**\EULA*chm" />
+    <CustActContentFiles Include="$(SolutionDir)\CustomActions\SqlLocalDb\System.Data.SqlLocalDB*" />
+    <CustActContentFiles Include="$(SolutionDir)\CustomActions\SqlLocalDb\SqlCommandCE40\ExportSqlCe40.exe" />
+  </ItemGroup>
+  <PropertyGroup>
+    <CustomActionContents>@(CustActContentFiles->'%(RecursiveDir)%(Filename)%(Extension)=%(FullPath)')</CustomActionContents>
+  </PropertyGroup>
+</Project>
